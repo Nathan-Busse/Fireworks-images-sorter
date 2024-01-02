@@ -40,33 +40,35 @@ def detect_fireworks(image_path):
         return True
     return False
 
-def main(source_dir, detected_dir, undetected_dir):
+def main():
+    current_script_path = os.path.dirname(os.path.abspath(__file__))
+    base_path = os.path.join(current_script_path, '..')  # Moves up one level to the Fireworks_images_sorter folder
+
+    # Define the paths for directories
+    source_directory_path = os.path.join(base_path, 'Images', 'Source')
+    detected_directory_path = os.path.join(base_path, 'Images', 'Detected')
+    undetected_directory_path = os.path.join(base_path, 'Images', 'Undetected')
+
     # Create destination directories if they don't exist
-    if not os.path.exists(detected_dir):
-        os.makedirs(detected_dir)
-    if not os.path.exists(undetected_dir):
-        os.makedirs(undetected_dir)
+    if not os.path.exists(detected_directory_path):
+        os.makedirs(detected_directory_path)
+    if not os.path.exists(undetected_directory_path):
+        os.makedirs(undetected_directory_path)
 
     # Iterate through files in source directory
-    for filename in os.listdir(source_dir):
+    for filename in os.listdir(source_directory_path):
         if filename.lower().endswith(('.jpg', '.jpeg', '.png')):  # Adjust the image formats as needed
-            image_path = os.path.join(source_dir, filename)
+            image_path = os.path.join(source_directory_path, filename)
 
             # Check if fireworks are detected in the image
             if detect_fireworks(image_path):
                 # Copy the image to the detected directory
-                shutil.copy(image_path, os.path.join(detected_dir, filename))
+                shutil.copy(image_path, os.path.join(detected_directory_path, filename))
                 print(f"Fireworks detected in: {filename}. Image copied to detected directory.")
             else:
                 # Copy the image to the undetected directory
-                shutil.copy(image_path, os.path.join(undetected_dir, filename))
+                shutil.copy(image_path, os.path.join(undetected_directory_path, filename))
                 print(f"No fireworks detected in: {filename}. Image copied to undetected directory.")
 
 if __name__ == "__main__":
-    # Replace 'source_directory_path', 'detected_directory_path', and 'undetected_directory_path'
-    # with your actual paths
-    source_directory_path = 'C:/Users/natha/Documents/Main/Programming/A.I/Projects/Image_sorter/Images/Source'
-    detected_directory_path = 'C:/Users/natha/Documents/Main/Programming/A.I/Projects/Image_sorter/Images/Detected'
-    undetected_directory_path = 'C:/Users/natha/Documents/Main/Programming/A.I/Projects/Image_sorter/Images/Undetected'
-
-    main(source_directory_path, detected_directory_path, undetected_directory_path)
+    main()

@@ -2,6 +2,7 @@ import cv2
 import os
 import shutil
 
+# Function to detect fireworks in an image
 def detect_fireworks(image_path):
     # Load the image
     img = cv2.imread(image_path)
@@ -40,22 +41,34 @@ def detect_fireworks(image_path):
         return True
     return False
 
+# Main function
 def main():
     current_script_path = os.path.dirname(os.path.abspath(__file__))
     base_path = os.path.join(current_script_path, '..')  # Moves up one level to the Fireworks_images_sorter folder
 
+    # Define the path for the 'Images' directory
+    images_directory_path = os.path.join(base_path, 'Images')
+
+    # Create 'Images' directory if it doesn't exist
+    if not os.path.exists(images_directory_path):
+        os.makedirs(images_directory_path)
+        # Create subfolders 'Source', 'Detected', 'Undetected'
+        os.makedirs(os.path.join(images_directory_path, 'Source'))
+        os.makedirs(os.path.join(images_directory_path, 'Detected'))
+        os.makedirs(os.path.join(images_directory_path, 'Undetected'))
+    else:
+        # Check and create subfolders 'Source', 'Detected', 'Undetected' if they don't exist
+        for subdir in ['Source', 'Detected', 'Undetected']:
+            subdir_path = os.path.join(images_directory_path, subdir)
+            if not os.path.exists(subdir_path):
+                os.makedirs(subdir_path)
+
     # Define the paths for directories
-    source_directory_path = os.path.join(base_path, 'Images', 'Source')
-    detected_directory_path = os.path.join(base_path, 'Images', 'Detected')
-    undetected_directory_path = os.path.join(base_path, 'Images', 'Undetected')
+    source_directory_path = os.path.join(images_directory_path, 'Source')
+    detected_directory_path = os.path.join(images_directory_path, 'Detected')
+    undetected_directory_path = os.path.join(images_directory_path, 'Undetected')
 
-    # Create destination directories if they don't exist
-    if not os.path.exists(detected_directory_path):
-        os.makedirs(detected_directory_path)
-    if not os.path.exists(undetected_directory_path):
-        os.makedirs(undetected_directory_path)
-
-    # Iterate through files in source directory
+    # Iterate through files in the source directory
     for filename in os.listdir(source_directory_path):
         if filename.lower().endswith(('.jpg', '.jpeg', '.png')):  # Adjust the image formats as needed
             image_path = os.path.join(source_directory_path, filename)
@@ -72,3 +85,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

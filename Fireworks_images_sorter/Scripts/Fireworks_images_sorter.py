@@ -18,11 +18,11 @@ def detect_fireworks(image_path):
     #              |   |    |            ----                                           #
     #              |   |    |                                                           #
     #             \ / \ /  \ /                                                          #
-    lower_color = (0, 100, 100)      #   H = Hue (0-179)                                #
+    lower_color = (0, 90, 100)      #   H = Hue (0-179)                                #
     #              |   |    |                                                           #
     #              |   |    |            S = Saturation (0-255)                         #
     #             \ / \ /  \ /                                                          #
-    upper_color = (20, 255, 255)     #   V = Value (0-255)                              #
+    upper_color = (15, 255, 255)     #   V = Value (0-255)                              #
     #-----------------------------------------------------------------------------------#
                 
     # Create a mask to extract the color range
